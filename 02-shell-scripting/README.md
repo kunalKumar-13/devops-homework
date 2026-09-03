@@ -126,7 +126,12 @@ echo "=============== SCRIPT FINISHED =============="
 
 ## Output — the complete run
 
-Run on Ubuntu 26.04. The value typed at the `read -p` prompt was **`system_report`**.
+Run on Ubuntu 26.04. The value supplied at the `read -p` prompt was **`system_report`**.
+Because the answer was piped in so the whole session could be captured, it does not
+appear echoed after the prompt — the line reads
+`Enter a name for the report directory: Directory created: system_report`, where
+everything after the colon is the script's next line of output. Typed by hand, the
+word `system_report` would appear right after the prompt.
 
 ```console
 $ chmod +x system_info.sh

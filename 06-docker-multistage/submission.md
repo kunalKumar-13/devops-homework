@@ -11,6 +11,20 @@
 
 ## Task 1 — Build and run the multi-stage Dockerfile
 
+> **On "clone the repository":** the assignment says to clone the repo containing the
+> multi-stage Dockerfile, but no URL was given with the task. Rather than guess at
+> somebody's repository, the multi-stage Dockerfile and its app were written here and
+> are cloneable from this repo:
+>
+> ```bash
+> git clone https://github.com/kunalKumar-13/devops-homework.git
+> cd devops-homework/06-docker-multistage
+> docker build -t multistage-hello .
+> docker run -d --name multistage-app -p 8080:8080 multistage-hello
+> ```
+>
+> If the class repo link is shared, building it is a one-line change.
+
 ### Build
 
 ```console

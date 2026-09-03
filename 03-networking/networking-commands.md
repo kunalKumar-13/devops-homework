@@ -124,27 +124,30 @@ $ ip route get 8.8.8.8
 
 ## 3. Reachability — `ping`
 
+Run on the **host machine** (macOS, on the real internet path) — see the note below for
+why this one command was not run inside the VM.
+
 ```console
 $ ping -c 4 8.8.8.8
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=64 time=0.241 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=64 time=0.548 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=64 time=0.221 ms
-64 bytes from 8.8.8.8: icmp_seq=4 ttl=64 time=0.481 ms
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: icmp_seq=0 ttl=116 time=21.685 ms
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=116 time=14.013 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=116 time=52.471 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=116 time=176.081 ms
 
 --- 8.8.8.8 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 3057ms
-rtt min/avg/max/mdev = 0.221/0.372/0.548/0.143 ms
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 14.013/66.062/176.081/65.129 ms
 
 $ ping -c 3 google.com
-PING google.com (192.178.174.113) 56(84) bytes of data.
-64 bytes from 192.178.174.113: icmp_seq=1 ttl=64 time=0.514 ms
-64 bytes from 192.178.174.113: icmp_seq=2 ttl=64 time=0.348 ms
-64 bytes from 192.178.174.113: icmp_seq=3 ttl=64 time=0.314 ms
+PING google.com (142.250.146.100): 56 data bytes
+64 bytes from 142.250.146.100: icmp_seq=0 ttl=113 time=31.548 ms
+64 bytes from 142.250.146.100: icmp_seq=1 ttl=113 time=30.607 ms
+64 bytes from 142.250.146.100: icmp_seq=2 ttl=113 time=30.197 ms
 
 --- google.com ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2010ms
-rtt min/avg/max/mdev = 0.314/0.392/0.514/0.087 ms
+3 packets transmitted, 3 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 30.197/30.784/31.548/0.566 ms
 ```
 
 **What I understood**
@@ -153,43 +156,105 @@ rtt min/avg/max/mdev = 0.314/0.392/0.514/0.087 ms
   most basic question: *can I reach that host at all, and how long does it take?*
 * `-c 4` sends exactly 4 packets and stops. Without it, ping runs forever until Ctrl+C.
 * The important numbers are in the summary: **packet loss** (0% is healthy) and
-  **round-trip min/avg/max/mdev** in milliseconds. High `mdev` (jitter) means an
-  unstable link even if nothing is lost.
+  **round-trip min/avg/max/stddev** in milliseconds. Here the average to `8.8.8.8` is
+  ~66 ms with a **stddev of 65 ms** — one packet took 176 ms while another took 14 ms.
+  That jitter is the interesting part: the link works but is unstable. The steady
+  ~30 ms to `google.com` with a stddev of 0.5 ms is what a healthy path looks like.
+* `ttl=116` is the remaining **Time To Live**. It starts at a round number (64, 128 or
+  255) and every router decrements it by one, so 116 means the reply crossed roughly a
+  dozen routers on the way back. A TTL near the starting value means very few hops.
 * `ping 8.8.8.8` (an IP) tests **connectivity**; `ping google.com` (a name) tests
   connectivity **and DNS**. If the IP works but the name does not, the problem is DNS,
   not the network — that single comparison is the fastest first diagnostic there is.
-* `ttl=` in each reply is the remaining Time To Live. Each router decrements it by one,
-  so a low TTL means the packet crossed many hops.
+
+> **Why not inside the VM?** Running the same command in the Ubuntu VM gives a
+> misleading answer, and understanding why is itself the lesson:
+>
+> ```console
+> PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+> 64 bytes from 8.8.8.8: icmp_seq=1 ttl=64 time=0.241 ms
+> ```
+>
+> `ttl=64` and **0.2 ms** to a Google DNS server on the other side of the internet is
+> impossible. The VM runs behind a **user-mode network stack**, and that stack answers
+> ICMP itself instead of forwarding it to the real network. So the ping "succeeds"
+> without a single packet ever leaving the machine.
+>
+> The takeaway: **a successful ping only proves that *something* answered.** Middleboxes,
+> NAT layers, VPN clients and captive portals can all reply on a host's behalf. When a
+> ping result looks too good — a suspiciously low latency, or a TTL that has not been
+> decremented — the reply is coming from something closer than you think.
 
 ---
 
 ## 4. Path to a host — `traceroute`
 
+Also run on the host machine, for the same reason.
+
 ```console
-$ traceroute -m 8 google.com
-traceroute to google.com (192.178.174.113), 8 hops max, 60 byte packets
- 1  * * *
- 2  * * *
- 3  * * *
- 4  * * *
- 5  * * *
+$ traceroute -m 12 -w 2 google.com
+traceroute: Warning: google.com has multiple addresses; using 142.250.146.100
+traceroute to google.com (142.250.146.100), 12 hops max, 40 byte packets
+ 1  [redacted — ISP last-mile hop]  (latencies: 45.982 16.614 17.755 ms)
+ 2  [redacted — ISP last-mile hop]  (latencies: 7.632 6.482 40.279 ms)
+ 3  [redacted — ISP last-mile hop]  (latencies: 9.594 8.744 9.269 ms)
+ 4  * ip-172-28-117-90.ap-south-1.compute.internal (172.28.117.90)  13.529 ms  11.618 ms
+ 5  115.112.15.114.static-chennai.vsnl.net.in (115.112.15.114)  33.459 ms  13.055 ms  13.116 ms
  6  * * *
- 7  * * *
- 8  * * *
+ 7  142.250.235.104 (142.250.235.104)  25.813 ms
+    142.251.55.90 (142.251.55.90)  14.896 ms
+    142.251.55.216 (142.251.55.216)  12.306 ms
+ 8  142.251.229.250 (142.251.229.250)  15.171 ms
+    142.250.208.230 (142.250.208.230)  18.128 ms
+    142.251.51.118 (142.251.51.118)  12.006 ms
+ 9  * * 216.239.49.131 (216.239.49.131)  83.690 ms
+10  142.250.213.170 (142.250.213.170)  51.940 ms
+    172.253.70.180 (172.253.70.180)  51.700 ms
+    192.178.254.234 (192.178.254.234)  26.596 ms
+11  192.178.82.99 (192.178.82.99)  30.793 ms
+    192.178.82.101 (192.178.82.101)  48.469 ms
+    64.233.174.113 (64.233.174.113)  25.370 ms
+12  142.251.67.20 (142.251.67.20)  163.232 ms
+    172.253.50.210 (172.253.50.210)  25.227 ms
+    142.251.67.20 (142.251.67.20)  29.951 ms
 ```
+
+*(The first three hops are this connection's own last-mile routers; they are redacted
+because this repository is public. Everything from hop 4 onwards is untouched.)*
 
 **What I understood**
 
-* `traceroute` shows **every router (hop)** between me and the destination, with the
-  latency to each one. It works by sending packets with a deliberately small TTL —
-  TTL=1 makes the first router reply "time exceeded", TTL=2 the second, and so on.
-* Reading it: hop 1 is my own gateway, and latency should climb gradually. A sudden
-  jump in time tells you *which* hop is slow; a row of `* * *` means that hop does not
-  reply to traceroute (common — many routers drop it, and it is not automatically a
-  fault).
-* `-m 8` caps it at 8 hops so the command finishes quickly.
+* `traceroute` shows **every router (hop)** between me and the destination, with three
+  latency samples for each. It works by sending packets with a deliberately small TTL —
+  TTL=1 makes the first router reply "time exceeded", TTL=2 the second, and so on, so
+  each hop reveals itself in turn.
+* Reading this one: the early hops are the ISP's own network — hop 5's hostname,
+  `115.112.15.114.static-chennai.vsnl.net.in`, even names the exchange it sits in, which
+  is a handy trick for working out geographically where a packet went. From hop 7
+  onwards every address belongs to Google. Latency stays in the 10–30 ms band across the
+  whole path, with the odd spike (163 ms on one probe at hop 12) that shows up as a high
+  stddev in ping.
+* **`* * *` at hop 6** means that router did not reply. That is normal — plenty of
+  routers are configured not to answer traceroute — and it is **not** a fault by itself.
+  A fault looks like `* * *` for **every** hop from a certain point onwards.
+* Hops 7 onwards show **three different addresses** for the same hop. That is load
+  balancing: each of the three probes took a different path through Google's network.
+* `-m 12` caps it at 12 hops so the command finishes quickly; `-w 2` is a 2-second
+  timeout per probe.
 * Where ping says "reachable or not", traceroute says **where it breaks** — which is
   what you need when the problem is somewhere in the middle of the internet.
+
+> Inside the VM, traceroute returns `* * *` for **every** hop:
+>
+> ```console
+> traceroute to google.com (192.178.174.113), 8 hops max, 60 byte packets
+>  1  * * *
+>  2  * * *
+> ```
+>
+> Same cause as the ping above — the user-mode network stack terminates the connection
+> locally, so there are no intermediate routers to reveal and no TTL-exceeded messages
+> to collect. Traceroute needs a real network path to have anything to show.
 
 ---
 
@@ -494,8 +559,11 @@ Connection closed by foreign host.
   the service is not listening.
 * `telnet host port` does the same job in a pinch and is available on almost any box.
   It is obsolete as a login protocol (everything is in plaintext — use SSH), but as a
-  "can I open this port" probe it is still handy. Getting the raw banner back (here the
-  TLS handshake bytes) proves the connection was established.
+  "can I open this port" probe it is still handy. `Connected to github.com.` is the
+  proof that the TCP connection was established; `Connection closed by foreign host.`
+  followed straight after because port 443 expects a **TLS** handshake and telnet sent
+  plaintext, so the server hung up. A closed or filtered port looks completely
+  different — `Connection refused` or a long hang with no output at all.
 * `nc` can also listen (`nc -l 9000`) which makes it a quick way to test connectivity in
   both directions.
 

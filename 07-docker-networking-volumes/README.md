@@ -3,6 +3,12 @@
 All four tasks were run against a real Docker engine. Every `console` block below is
 captured output.
 
+**A note on evidence.** Tasks 1, 2 and 4 are network exercises with no web page to
+photograph — their proof is the command output (ping results, `docker inspect`,
+`ss -tlnp`, `docker network inspect`), so it is captured as text: searchable,
+copy-pasteable and diffable. Task 3 does have a visible page, so it has real
+**browser screenshots**, before and after the host-side edit.
+
 ```
 07-docker-networking-volumes/
 ├── README.md
@@ -232,6 +238,9 @@ port 3306 on database is OPEN from backend
 ---
 
 # Task 2 — Host Network
+
+`httpd:2.4` is the official **Apache HTTP Server 2.4** image on Docker Hub — the same
+Apache2 that `apt install apache2` gives you, packaged by the Apache project.
 
 ```bash
 docker pull httpd:2.4

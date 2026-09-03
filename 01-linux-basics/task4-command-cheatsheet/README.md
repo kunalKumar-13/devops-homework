@@ -424,7 +424,10 @@ $ history | tail -n 5 || echo '(history is interactive-shell only)'
 * `mkdir -p project/src project/docs` created two nested trees in one call.
 * `mv` was used as a **rename** (`readme.bak` → `notes.txt`) — there is no separate
   rename command.
-* `rmdir` only worked once the directory was empty; `rm -r` is what removes a tree.
+* `rmdir project/docs` **failed** with `Directory not empty` — `readme.txt` was still
+  in there. That is the whole point of `rmdir`: it only removes an *empty* directory,
+  which makes it a safe command. To delete a directory that still has contents you
+  need `rm -r`, and that is the one to be careful with.
 * `chmod +x script.sh` flipped the permissions from `-rw-rw-r--` to `-rwxrwxr-x`, and
   `chmod 640` produced exactly `-rw-r-----`.
 * `sleep 60 &` put a job in the background; `jobs` listed it, `pgrep -a sleep` found the

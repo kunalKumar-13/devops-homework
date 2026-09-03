@@ -45,6 +45,13 @@ sudo apt install -y net-tools dnsutils traceroute iputils-ping curl wget \
 Machine used: hostname `lima-linuxlab`, interface `eth0`, IP `192.168.5.15/24`,
 gateway `192.168.5.2`.
 
+**Two commands were run on the host machine instead of in the VM: `ping` and
+`traceroute`.** The VM sits behind a user-mode network stack that answers ICMP itself
+rather than forwarding it, so inside the VM `ping 8.8.8.8` returns an impossible
+`ttl=64` at 0.2 ms and `traceroute` returns `* * *` for every hop. Both the real
+host output and the misleading VM output are in the file, with an explanation of why
+they differ — a successful ping only proves that *something* replied.
+
 ## A note on evidence
 
 The task asks for "output/screenshots". Everything here is captured **text output**

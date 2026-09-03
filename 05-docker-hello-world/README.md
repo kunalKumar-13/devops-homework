@@ -30,9 +30,16 @@ output for that app.
 | [React-app](React-app/) | `node:20-alpine` → `nginx:alpine` | 80 | 3101 | 102 MB | Hello World from React |
 | [nginx-app](nginx-app/) | `nginx:alpine` | 80 | 8182 | 102 MB | Hello World from Nginx |
 
-> **Why these host ports?** Ports 3000, 8080 and 8081 were already taken by other
-> services on the machine, so each app was published on a free port instead. The
-> container ports are the conventional ones; only the left-hand side of `-p` changed.
+> **Why these host ports?** Ports **3000, 8081 and 8085** were already occupied by other
+> services running on the machine, so each app was published on a free port instead. The
+> container ports are the conventional ones; only the left-hand side of `-p` changed —
+> `-p 3100:3000` still means the app listens on 3000 inside the container.
+>
+> Worth knowing: the first attempt used the conventional host ports and the containers
+> started **without any error**, but `curl http://localhost:3000` returned a completely
+> different application. Docker's port publishing does not always fail loudly when
+> something else already holds the port, so `lsof -nP -iTCP:3000 -sTCP:LISTEN` before
+> choosing a port saves a lot of confusion.
 
 ## Build and run everything
 
