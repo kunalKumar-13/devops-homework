@@ -1,0 +1,123 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.3  0.4  26748 17240 ?        Ss   20:47   0:01 /usr/lib/systemd/systemd --switched-root --system --deserialize=44
+root           2  0.0  0.0      0     0 ?        S    20:47   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    20:47   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-rcu_gp]
+root           5  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-sync_wq]
+root           6  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kvfree_rcu_reclaim]
+root           7  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-slub_flushwq]
+root           8  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-netns]
+root          10  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/0:0H-kblockd]
+root          11  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/0:1-events]
+root          13  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-mm_percpu_wq]
+root          14  0.0  0.0      0     0 ?        S    20:47   0:00 [ksoftirqd/0]
+root          15  0.0  0.0      0     0 ?        I    20:47   0:00 [rcu_preempt]
+root          16  0.0  0.0      0     0 ?        S    20:47   0:00 [rcu_exp_par_gp_kthread_worker/0]
+root          17  0.0  0.0      0     0 ?        S    20:47   0:00 [rcu_exp_gp_kthread_worker]
+root          18  0.0  0.0      0     0 ?        S    20:47   0:00 [migration/0]
+root          19  0.0  0.0      0     0 ?        S    20:47   0:00 [idle_inject/0]
+root          20  0.0  0.0      0     0 ?        S    20:47   0:00 [cpuhp/0]
+root          21  0.0  0.0      0     0 ?        S    20:47   0:00 [cpuhp/1]
+root          22  0.0  0.0      0     0 ?        S    20:47   0:00 [idle_inject/1]
+root          23  0.0  0.0      0     0 ?        S    20:47   0:00 [migration/1]
+root          24  0.0  0.0      0     0 ?        S    20:47   0:00 [ksoftirqd/1]
+root          26  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/1:0H-kblockd]
+root          27  0.0  0.0      0     0 ?        S    20:47   0:00 [kdevtmpfs]
+root          28  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-inet_frag_wq]
+root          29  0.0  0.0      0     0 ?        I    20:47   0:00 [rcu_tasks_kthread]
+root          30  0.0  0.0      0     0 ?        I    20:47   0:00 [rcu_tasks_rude_kthread]
+root          31  0.0  0.0      0     0 ?        S    20:47   0:00 [kauditd]
+root          32  0.0  0.0      0     0 ?        S    20:47   0:00 [khungtaskd]
+root          33  0.0  0.0      0     0 ?        S    20:47   0:00 [oom_reaper]
+root          34  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/u8:1-events_unbound]
+root          35  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-writeback]
+root          36  0.0  0.0      0     0 ?        S    20:47   0:00 [kcompactd0]
+root          37  0.0  0.0      0     0 ?        SN   20:47   0:00 [ksmd]
+root          38  0.0  0.0      0     0 ?        SN   20:47   0:00 [khugepaged]
+root          39  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kblockd]
+root          40  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-blkcg_punt_bio]
+root          41  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kintegrityd]
+root          42  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/1:1-events]
+root          43  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-tpm_dev_wq]
+root          44  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-ata_sff]
+root          45  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-md_bitmap]
+root          46  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-md_llbitmap_io]
+root          47  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-md_llbitmap_unplug]
+root          48  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-edac-poller]
+root          49  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-devfreq_wq]
+root          50  0.0  0.0      0     0 ?        S    20:47   0:00 [watchdogd]
+root          51  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-quota_events_unbound]
+root          52  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/u8:2-events_power_efficient]
+root          53  0.0  0.0      0     0 ?        S    20:47   0:00 [kswapd0]
+root          54  0.0  0.0      0     0 ?        S    20:47   0:00 [ecryptfs-kthread]
+root          55  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kthrotld]
+root          56  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/u9:0]
+root          57  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-acpi_thermal_pm]
+root          58  0.0  0.0      0     0 ?        S    20:47   0:00 [khvcd]
+root          59  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-mld]
+root          60  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-ipv6_addrconf]
+root          61  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kstrp]
+root          66  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-charger_manager]
+root          67  0.0  0.0      0     0 ?        S    20:47   0:00 [irq/13-ACPI:Event]
+root          68  0.0  0.0      0     0 ?        S    20:47   0:00 [hwrng]
+root          82  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/0:2-cgroup_free]
+root         192  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kmpathd]
+root         194  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kmpath_handlerd]
+root         202  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/0:3-events]
+root         333  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-iscsi_conn_cleanup]
+root         334  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/1:4-events]
+root         345  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-tls-strp]
+root         347  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-cnic_wq]
+root         348  0.0  0.0      0     0 ?        S<   20:47   0:00 [bnx2i_thread/0]
+root         349  0.0  0.0      0     0 ?        S<   20:47   0:00 [bnx2i_thread/1]
+root         460  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-cfg80211]
+root         561  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/1:1H-kblockd]
+root         562  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/0:1H-kblockd]
+root         571  0.0  0.0      0     0 ?        S    20:47   0:00 [jbd2/vda1-8]
+root         572  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-ext4-rsv-conversion]
+root         657  0.0  0.0      0     0 ?        I    20:47   0:00 [kworker/u8:4-ext4-rsv-conversion]
+root         892  0.0  0.2  34604 10444 ?        S<s  20:47   0:00 /usr/lib/systemd/systemd-journald
+root         923  0.0  0.4 282400 18492 ?        SLsl 20:47   0:00 /usr/sbin/multipathd -d -s
+root         949  0.0  0.3  41972 14400 ?        Ss   20:47   0:00 /usr/lib/systemd/systemd-udevd
+root         951  0.0  0.0      0     0 ?        S    20:47   0:00 [psimon]
+root        1017  0.0  0.0      0     0 ?        S    20:47   0:00 [jbd2/vda13-8]
+root        1018  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-ext4-rsv-conversion]
+systemd+    1294  0.0  0.2  22140 11908 ?        Ss   20:47   0:00 /usr/lib/systemd/systemd-networkd
+root        1450  0.0  0.0   3716  1624 ?        Ss   20:47   0:00 /bin/sh /usr/lib/systemd/scripts/chronyd-starter.sh -n -F 1
+message+    1453  0.0  0.1   9120  4796 ?        Ss   20:47   0:00 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root        1464  0.0  0.7  49864 29740 ?        Ss   20:47   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+polkitd     1465  0.0  0.4 310340 18792 ?        Ssl  20:47   0:00 /usr/lib/polkit-1/polkitd --no-debug --log-level=notice
+root        1471  0.0  0.2  19692 10180 ?        Ss   20:47   0:00 /usr/lib/systemd/systemd-logind
+root        1473  0.0  0.6 548124 27600 ?        Ssl  20:47   0:00 /usr/libexec/udisks2/udisksd
+root        1520  0.0  0.0   9436  2160 hvc0     Ss+  20:47   0:00 /usr/sbin/agetty --noreset --noclear --issue-file=/etc/issue:/etc/issue.d:/run/issue.d:/usr/lib/issue.d --keep-baud 115200,57600,38400,9600 - vt220
+root        1536  0.0  0.0   8728  2020 tty1     Ss+  20:47   0:00 /usr/sbin/agetty --noreset --noclear --issue-file=/etc/issue:/etc/issue.d:/run/issue.d:/usr/lib/issue.d - linux
+root        1548  0.0  0.8 128016 33464 ?        Ssl  20:47   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+_chrony     1549  0.0  0.2  25552 11752 ?        S    20:47   0:00 /usr/sbin/chronyd -n -F 1
+_chrony     1589  0.0  0.0  13200  2172 ?        S    20:47   0:00 /usr/sbin/chronyd -n -F 1
+syslog      1608  0.0  0.2 220924 10356 ?        Ssl  20:47   0:00 /usr/sbin/rsyslogd -n -iNONE
+root        1649  0.0  0.6 400460 24992 ?        Ssl  20:47   0:00 /usr/sbin/ModemManager
+root        1921  0.0  0.1  11764  7280 ?        Ss   20:47   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+systemd+    2067  0.0  0.3  22808 14648 ?        Ss   20:47   0:00 /usr/lib/systemd/systemd-resolved
+kunalpr+    2222  0.1  0.3  22744 12576 ?        Ss   20:47   0:00 /usr/lib/systemd/systemd --user
+kunalpr+    2224  0.0  0.0  25496  3900 ?        S    20:47   0:00 (sd-pam)
+root        2363  0.0  0.0      0     0 ?        S    20:47   0:00 [psimon]
+root        2366  0.2  0.7 1281224 28048 ?       Ssl  20:47   0:00 /usr/local/bin/lima-guestagent daemon --vsock-port 2222 --runtime-dir=/run/lima-guestagent
+root        2462  0.0  0.3  21596 12060 ?        Ss   20:47   0:00 sshd-session: kunalpronto [priv]
+root        2464  0.0  0.0      0     0 ?        Z    20:47   0:00 [sshd] <defunct>
+kunalpr+    2513  0.0  0.2  21596  8572 ?        S    20:47   0:00 sshd-session: kunalpronto@notty
+root        7089  0.0  0.0      0     0 ?        I    20:48   0:00 [kworker/u8:5-events_unbound]
+kunalpr+    9685  0.0  0.5 1248112 22084 ?       Ssl  20:48   0:00 rootlesskit --state-dir=/run/user/501/containerd-rootless --net=gvisor-tap-vsock --mtu=65520 --slirp4netns-sandbox=auto --slirp4netns-seccomp=auto --disable-host-loopback --port-driver=builtin --copy-up=/etc --copy-up=/run --copy-up=/var/lib --propagation=rslave --detach-netns /usr/local/bin/containerd-rootless.sh
+kunalpr+    9697  0.0  0.5 1248112 20116 ?       Sl   20:48   0:00 /proc/self/exe --state-dir=/run/user/501/containerd-rootless --net=gvisor-tap-vsock --mtu=65520 --slirp4netns-sandbox=auto --slirp4netns-seccomp=auto --disable-host-loopback --port-driver=builtin --copy-up=/etc --copy-up=/run --copy-up=/var/lib --propagation=rslave --detach-netns /usr/local/bin/containerd-rootless.sh
+kunalpr+    9730  0.1  0.9 1295472 37516 ?       Sl   20:48   0:00 containerd
+kunalpr+    9848  0.0  1.1 1310616 44372 ?       Ssl  20:48   0:00 buildkitd --oci-worker=false --containerd-worker=true --containerd-worker-rootless=true --addr=unix:///run/user/501/buildkit-default/buildkitd.sock --root=/home/kunalpronto.guest/.local/share/buildkit-default --containerd-worker-namespace=default --containerd-worker-snapshotter=overlayfs --containerd-worker-net=bridge
+kunalpr+   10039  0.0  0.8 1278076 35844 ?       Ssl  20:48   0:00 containerd-stargz-grpc -address /run/user/501/containerd-stargz-grpc/containerd-stargz-grpc.sock -root /home/kunalpronto.guest/.local/share/containerd-stargz-grpc -config /home/kunalpronto.guest/.config/containerd-stargz-grpc/config.toml
+root       10353  0.0  0.0   8680  2584 ?        Ss   20:52   0:00 /usr/sbin/cron -f -P
+root       17293  0.0  0.7 347612 27992 ?        Ssl  20:52   0:00 /usr/libexec/packagekitd
+root       17421  0.0  0.0      0     0 ?        I<   20:53   0:00 [kworker/R-ib-comp-wq]
+root       17422  0.0  0.0      0     0 ?        I<   20:53   0:00 [kworker/R-ib-comp-unb-wq]
+root       17423  0.0  0.0      0     0 ?        I<   20:53   0:00 [kworker/R-ib_mcast]
+root       17424  0.0  0.0      0     0 ?        I<   20:53   0:00 [kworker/R-ib_nl_sa_wq]
+kunalpr+   17631  0.0  0.0   8604  3312 ?        Ss   20:54   0:00 bash -c cd ~/shelllab && rm -rf system_report && echo "system_report" | script -qec "./system_info.sh" /dev/null
+kunalpr+   17648  0.0  0.1   7768  3992 ?        S    20:54   0:00 script -qec ./system_info.sh /dev/null
+kunalpr+   17649  0.0  0.0   8908  3348 pts/0    Ss+  20:54   0:00 /bin/bash ./system_info.sh
+kunalpr+   17659  0.0  0.0  10064  3600 pts/0    R+   20:54   0:00 ps aux

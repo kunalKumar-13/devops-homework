@@ -1,0 +1,54 @@
+system_report
+==============================================
+           SYSTEM INFORMATION REPORT          
+==============================================
+
+Current Date : Thu Sep  3 20:54:02 IST 2026
+Hostname     : lima-linuxlab
+Username     : kunalpronto
+
+----------------- DISK USAGE -----------------
+Filesystem             Size  Used Avail Use% Mounted on
+tmpfs                  780M 1020K  779M   1% /run
+/dev/vda1               96G  3.1G   93G   4% /
+tmpfs                  2.0G     0  2.0G   0% /dev/shm
+efivarfs                56K  1.4K   55K   3% /sys/firmware/efi/efivars
+tmpfs                  2.0G     0  2.0G   0% /tmp
+none                   1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+/dev/vda13             891M  126M  704M  16% /boot
+/dev/vda15              98M  6.5M   91M   7% /boot/efi
+none                   1.0M     0  1.0M   0% /run/credentials/systemd-networkd.service
+lima-91dda870eb627210  927G  263G  664G  29% /Users/kunalpronto
+/dev/vdb               269M  269M     0 100% /mnt/lima-cidata
+none                   1.0M     0  1.0M   0% /run/credentials/systemd-resolved.service
+tmpfs                  390M   40K  390M   1% /run/user/501
+none                   1.0M     0  1.0M   0% /run/credentials/sshd@4-3-3:22-2:2914939157.service
+none                   1.0M     0  1.0M   0% /run/credentials/getty@tty1.service
+none                   1.0M     0  1.0M   0% /run/credentials/serial-getty@hvc0.service
+
+-------- RUNNING PROCESSES (top 10) ----------
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.3  0.4  26748 17240 ?        Ss   20:47   0:01 /usr/lib/systemd/systemd --switched-root --system --deserialize=44
+root           2  0.0  0.0      0     0 ?        S    20:47   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    20:47   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-rcu_gp]
+root           5  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-sync_wq]
+root           6  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-kvfree_rcu_reclaim]
+root           7  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-slub_flushwq]
+root           8  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-netns]
+root          10  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/0:0H-kblockd]
+
+Enter a name for the report directory: Directory created: system_report
+File created    : system_report/processes.txt
+
+Running processes saved to system_report/processes.txt
+Lines written: 123
+
+First 5 lines of the saved file:
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.3  0.4  26748 17240 ?        Ss   20:47   0:01 /usr/lib/systemd/systemd --switched-root --system --deserialize=44
+root           2  0.0  0.0      0     0 ?        S    20:47   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    20:47   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   20:47   0:00 [kworker/R-rcu_gp]
+
+=============== SCRIPT FINISHED ==============
