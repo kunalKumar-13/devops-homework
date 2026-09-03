@@ -1,24 +1,8 @@
-# Docker Multi-Stage Build — Submission
 
-| | |
-|---|---|
-| **Name** | Kunal Kumar |
-| **Enrollment / Roll Number** | 24BCS10027 |
-| **Date** | 3 September 2026 |
-| **Machine** | Ubuntu 26.04 LTS, Docker 29.1.3, user `kunal` on `kunal-devops` |
-| **Repository** | [devops-homework](../) |
+############################################################
+#  TASK 1 - Clone the repository containing the multi-stage Dockerfile
+############################################################
 
----
-
-## Task 1 — Clone, build and run the multi-stage Dockerfile
-
-The multi-stage Dockerfile is the one from the class repo,
-[MineshShaw/devops-heros](https://github.com/MineshShaw/devops-heros), at
-`session6-7-docker/multi-stage-dockerfile/`.
-
-### Clone the repository
-
-```console
 kunal@kunal-devops:~$ git clone https://github.com/MineshShaw/devops-heros.git 2>&1 | tail -n 3 || echo '(already cloned)'
 fatal: destination path 'devops-heros' already exists and is not an empty directory.
 
@@ -75,18 +59,17 @@ kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ cat 
     "express": "^5.1.0"
   }
 }
-```
 
-### Build the image
+############################################################
+#  Build the image from the multi-stage Dockerfile
+############################################################
 
-```console
 kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ docker build -t multistage-hello .
 DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
             Install the buildx component to build images with BuildKit:
             https://docs.docker.com/go/buildx/
 
-Sending build context to Docker daemon  4.096kB
-
+Sending build context to Docker daemon  4.096kB
 Step 1/12 : FROM node:24-alpine AS builder
 24-alpine: Pulling from library/node
 6f93fb0c7078: Pulling fs layer
@@ -162,52 +145,21 @@ Step 12/12 : CMD ["npm", "start"]
  ---> bda0f7af6d2b
 Successfully built bda0f7af6d2b
 Successfully tagged multistage-hello:latest
-```
 
-### Run a container on port 8080
 
-The app listens on **3000 inside the container** (`EXPOSE 3000`), so it is published on
-the host's port 8080 with `-p 8080:3000`.
+############################################################
+#  Run a container from the image on port 8080
+############################################################
 
-```console
 The app listens on 3000 inside the container (EXPOSE 3000), so it is published on 8080.
 kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ docker run -d --name multistage-app -p 8080:3000 multistage-hello
 0fe4b117b33d0eca74eb628542f7a864112f685daf5e4e85b31ddbc75499d488
-```
 
----
 
-## Task 2 — Evidence
+############################################################
+#  Verify the running container with docker ps
+############################################################
 
-### The application displays "Hello World from Docker Multi-Stage Build!"
-
-**Screenshot — http://localhost:8080 in the browser**
-
-![Application running on port 8080](screenshots/app-running-8080.png)
-
-**Command-line output**
-
-```console
-kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ curl -s http://localhost:8080
-<h1>Hello World from Docker Multi-Stage Build!</h1>
-kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ curl -s -o /dev/null -w 'HTTP status: %{http_code}\n' http://localhost:8080
-HTTP status: 200
-
-kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ docker logs multistage-app
-
-> docker-hello-world@1.0.0 start
-> node server.js
-
-Server running on port 3000
-```
-
-### `docker ps` showing the running container on port 8080
-
-**Screenshot — `docker ps` and `curl` in the terminal**
-
-![docker ps showing port 8080](screenshots/11-multistage-8080.png)
-
-```console
 kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ docker ps
 CONTAINER ID   IMAGE              COMMAND                  CREATED              STATUS              PORTS                                         NAMES
 0fe4b117b33d   multistage-hello   "docker-entrypoint.s…"   5 seconds ago        Up 5 seconds        0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp   multistage-app
@@ -221,35 +173,29 @@ d9e798810f71   hello-apache       "httpd-foreground"       About a minute ago   
 kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ docker ps --filter name=multistage-app --format 'table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}\t{{.Names}}'
 CONTAINER ID   IMAGE              STATUS         PORTS                                         NAMES
 0fe4b117b33d   multistage-hello   Up 5 seconds   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp   multistage-app
-```
 
-The `PORTS` column confirms it: **`0.0.0.0:8080->3000/tcp`** — the container's port 3000
-is published on the host's port 8080, and `curl http://localhost:8080` returns HTTP 200
-with the required message.
 
----
+############################################################
+#  Access the application
+############################################################
 
-## Task 3 — At least 3 different applications deployed with Docker
+kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ curl -s http://localhost:8080
+<h1>Hello World from Docker Multi-Stage Build!</h1>
+kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ curl -s -o /dev/null -w 'HTTP status: %{http_code}\n' http://localhost:8080
+HTTP status: 200
 
-Six were built and run, each from its own Dockerfile, all verified in a browser.
-Full details and screenshots: [`../05-docker-hello-world/`](../05-docker-hello-world/)
+kunal@kunal-devops:~/devops-heros/session6-7-docker/multi-stage-dockerfile$ docker logs multistage-app
 
-| # | Type | Image | Published port | Verified |
-|---|---|---|---|---|
-| 1 | **Node.js** (Express) | `hello-nodejs` | 3100 | Hello World from Node.js |
-| 2 | **Python** (Flask) | `hello-python` | 5100 | Hello World from Python |
-| 3 | **Java** (JDK HttpServer) | `hello-java` | 8180 | Hello World from Java |
-| 4 | **Apache** (httpd) | `hello-apache` | 8181 | Hello World from Apache |
-| 5 | **React** (Vite + Nginx) | `hello-react` | 3101 | Hello World from React |
-| 6 | **Nginx** | `hello-nginx` | 8182 | Hello World from Nginx |
+> docker-hello-world@1.0.0 start
+> node server.js
 
-![all six containers](../05-docker-hello-world/screenshots/10-docker-six-apps.png)
+Server running on port 3000
 
----
 
-## What the multi-stage build actually saved
+############################################################
+#  Why multi-stage matters - build the SAME app single-stage and compare
+############################################################
 
-```console
 kunal@kunal-devops:~$ mkdir -p ~/singlestage && cp ~/devops-heros/session6-7-docker/multi-stage-dockerfile/{server.js,package.json} ~/singlestage/
 
 kunal@kunal-devops:~/singlestage$ cat Dockerfile
@@ -289,21 +235,12 @@ e67514e5d0f6   6 days ago       CMD ["node"]                                    
 <missing>      6 days ago       ENV NODE_VERSION=24.20.0                        0B        buildkit.dockerfile.v0
 <missing>      2 months ago     CMD ["/bin/sh"]                                 0B        buildkit.dockerfile.v0
 <missing>      2 months ago     ADD alpine-minirootfs-3.24.1-aarch64.tar.gz …   9.31MB    buildkit.dockerfile.v0
-```
 
-| Build | Image | Size |
-|---|---|---|
-| Single-stage | `singlestage-hello` | **249 MB** |
-| Multi-stage | `multistage-hello` | **243 MB** |
 
-Only 6 MB — because both stages use the same `node:24-alpine` base and the production
-stage still installs the runtime dependencies. For an interpreted language, multi-stage
-mainly buys a controlled file list and no dev dependencies.
+############################################################
+#  EXTRA - the same idea taken further, with a compiled language
+############################################################
 
-The saving becomes dramatic when the build toolchain is not needed at runtime. The same
-pattern with a compiled language (the extra example in this folder):
-
-```console
 kunal@kunal-devops:~/devops-homework/06-docker-multistage$ cat Dockerfile
 # =========================================================
 # Stage 1 — build
@@ -349,12 +286,5 @@ Hello World from Docker multi-stage build
 kunal@kunal-devops:~/devops-homework/06-docker-multistage$ docker images | grep -E 'REPOSITORY|go-multistage|golang'
 WARNING: This output is designed for human readability. For machine-readable output, please use --format.
 go-multistage:latest       c8e24e16a0c2       20.2MB         6.03MB   U    
-golang:1.22-alpine         1699c10032ca        344MB         70.8MB
-```
+golang:1.22-alpine         1699c10032ca        344MB         70.8MB        
 
-| Build | Image | Size |
-|---|---|---|
-| Go build toolchain (`golang:1.22-alpine`) | base image | **344 MB** |
-| Multi-stage Go app | `go-multistage` | **20.2 MB** |
-
-A 17× reduction, because only the compiled static binary ships.

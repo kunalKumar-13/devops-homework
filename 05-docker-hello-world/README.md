@@ -1,7 +1,8 @@
 # Docker Homework — Hello World Applications
 
 Six Hello World web applications, each in its own folder with its own `Dockerfile`.
-Every image was **built and run for real**, and every page was verified in a browser.
+Every image was **built and run for real** on Ubuntu 26.04 (Docker 29.1.3) as
+`kunal@kunal-devops`, and every page was verified in a browser.
 
 ## Folder structure
 
@@ -13,11 +14,11 @@ Every image was **built and run for real**, and every page was verified in a bro
 ├── Apache-app/      httpd serving a static page    → hello-apache
 ├── React-app/       React + Vite, served by Nginx  → hello-react
 ├── nginx-app/       Nginx serving a static page    → hello-nginx
-└── screenshots/     browser screenshots of all six pages
+└── screenshots/     browser screenshots of all six pages, plus the terminal
 ```
 
-Each folder has its own `README.md` with the Dockerfile explanation and the full build
-output for that app.
+Each folder has its own `README.md` with the Dockerfile explained and that app's full
+build log.
 
 ## Summary
 
@@ -30,16 +31,11 @@ output for that app.
 | [React-app](React-app/) | `node:20-alpine` → `nginx:alpine` | 80 | 3101 | 102 MB | Hello World from React |
 | [nginx-app](nginx-app/) | `nginx:alpine` | 80 | 8182 | 102 MB | Hello World from Nginx |
 
-> **Why these host ports?** Ports **3000, 8081 and 8085** were already occupied by other
-> services running on the machine, so each app was published on a free port instead. The
-> container ports are the conventional ones; only the left-hand side of `-p` changed —
-> `-p 3100:3000` still means the app listens on 3000 inside the container.
->
-> Worth knowing: the first attempt used the conventional host ports and the containers
-> started **without any error**, but `curl http://localhost:3000` returned a completely
-> different application. Docker's port publishing does not always fail loudly when
-> something else already holds the port, so `lsof -nP -iTCP:3000 -sTCP:LISTEN` before
-> choosing a port saves a lot of confusion.
+> **Why these host ports?** The conventional ports (3000, 8080, 8081) were already in use
+> by other services on the machine this was developed from, so each app was published on
+> a free port. The container ports are the standard ones — only the left-hand side of
+> `-p` changed, so `-p 3100:3000` still means the app listens on 3000 inside the
+> container.
 
 ## Build and run everything
 
@@ -52,54 +48,59 @@ docker build -t hello-react  ./React-app   && docker run -d --name react-hello  
 docker build -t hello-nginx  ./nginx-app   && docker run -d --name nginx-hello  -p 8182:80   hello-nginx
 ```
 
+## Screenshot — all six containers running and verified
+
+![docker ps and curl checks](screenshots/10-docker-six-apps.png)
+
 ## All six containers running
 
 ```console
-$ docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
-NAMES          IMAGE          STATUS          PORTS
-nginx-hello    hello-nginx    Up 4 seconds    0.0.0.0:8182->80/tcp, [::]:8182->80/tcp
-react-hello    hello-react    Up 8 seconds    0.0.0.0:3101->80/tcp, [::]:3101->80/tcp
-apache-hello   hello-apache   Up 12 seconds   0.0.0.0:8181->80/tcp, [::]:8181->80/tcp
-java-hello     hello-java     Up 16 seconds   0.0.0.0:8180->8080/tcp, [::]:8180->8080/tcp
-python-hello   hello-python   Up 20 seconds   0.0.0.0:5100->5000/tcp, [::]:5100->5000/tcp
-node-hello     hello-nodejs   Up 25 seconds   0.0.0.0:3100->3000/tcp, [::]:3100->3000/tcp
+kunal@kunal-devops:~$ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS              PORTS                                         NAMES
+0517ca08f2c5   hello-nginx    "/docker-entrypoint.…"   5 seconds ago        Up 4 seconds        0.0.0.0:8182->80/tcp, [::]:8182->80/tcp       nginx-hello
+78b99130ed0f   hello-react    "/docker-entrypoint.…"   9 seconds ago        Up 8 seconds        0.0.0.0:3101->80/tcp, [::]:3101->80/tcp       react-hello
+d9e798810f71   hello-apache   "httpd-foreground"       33 seconds ago       Up 32 seconds       0.0.0.0:8181->80/tcp, [::]:8181->80/tcp       apache-hello
+060fa82a28ce   hello-java     "/__cacert_entrypoin…"   43 seconds ago       Up 42 seconds       0.0.0.0:8180->8080/tcp, [::]:8180->8080/tcp   java-hello
+3120276c2415   hello-python   "python app.py"          About a minute ago   Up About a minute   0.0.0.0:5100->5000/tcp, [::]:5100->5000/tcp   python-hello
+2400edfec3bc   hello-nodejs   "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:3100->3000/tcp, [::]:3100->3000/tcp   node-hello
 
-$ docker images --format 'table {{.Repository}}\t{{.Tag}}\t{{.Size}}' | grep hello-
-hello-nginx       latest      102MB
-hello-react       latest      102MB
-hello-apache      latest      205MB
-hello-java        latest      474MB
-hello-python      latest      234MB
-hello-nodejs      latest      210MB
-hello-world       latest      22.6kB
+kunal@kunal-devops:~$ docker images | grep -E 'REPOSITORY|hello-'
+WARNING: This output is designed for human readability. For machine-readable output, please use --format.
+hello-apache:latest      e738b0fd797c        205MB         45.5MB   U    
+hello-java:latest        fed993be3872        474MB          113MB   U    
+hello-nginx:latest       d7ca75e793b4        102MB           29MB   U    
+hello-nodejs:latest      149be07f3208        210MB         51.6MB   U    
+hello-python:latest      3a364c35e12f        234MB         51.8MB   U    
+hello-react:latest       42494398b2bb        102MB         29.1MB   U
 ```
 
 ## Verification — Hello World is displayed
 
 ```console
-$ curl -s http://localhost:3100 | grep -o '<h1>.*</h1>'
+kunal@kunal-devops:~$ curl -s http://localhost:3100 | grep -o '<h1>.*</h1>'
 <h1>Hello World from Node.js</h1>
 
-$ curl -s http://localhost:5100 | grep -o '<h1>.*</h1>'
+kunal@kunal-devops:~$ curl -s http://localhost:5100 | grep -o '<h1>.*</h1>'
 <h1>Hello World from Python</h1>
 
-$ curl -s http://localhost:8180 | grep -o '<h1>.*</h1>'
+kunal@kunal-devops:~$ curl -s http://localhost:8180 | grep -o '<h1>.*</h1>'
 <h1>Hello World from Java</h1>
 
-$ curl -s http://localhost:8181 | grep -o '<h1>.*</h1>'
+kunal@kunal-devops:~$ curl -s http://localhost:8181 | grep -o '<h1>.*</h1>'
 <h1>Hello World from Apache</h1>
 
-$ curl -s http://localhost:3101 | grep -o '<h1>.*</h1>'
+kunal@kunal-devops:~$ curl -s http://localhost:3101 | grep -o '<h1>.*</h1>'
+(no <h1> in the raw HTML - React renders its heading in the browser)
 
-$ curl -s http://localhost:8182 | grep -o '<h1>.*</h1>'
+kunal@kunal-devops:~$ curl -s http://localhost:8182 | grep -o '<h1>.*</h1>'
 <h1>Hello World from Nginx</h1>
 ```
 
 The React app is the one exception to `curl` verification: its heading is rendered by
-JavaScript in the browser, so the raw HTML shell contains no `<h1>`. The screenshot
-below is the proof for that one.
+JavaScript in the browser, so the raw HTML shell contains no `<h1>`. The browser
+screenshot below is the proof for that one.
 
-## Screenshots
+## Browser screenshots
 
 | | |
 |---|---|
@@ -119,7 +120,7 @@ below is the proof for that one.
 | Multi-stage build | java, react | the compiler/toolchain never ships in the final image |
 | Alpine / slim base images | nodejs, react, nginx | 102 MB instead of several hundred |
 | No `CMD` needed | Apache, Nginx | the official images already run the server in the foreground |
-| `.dockerignore` | nodejs, react | keeps `node_modules` out of the build context, so builds are fast |
+| `.dockerignore` | nodejs, react | keeps `node_modules` out of the build context, so builds stay fast |
 | `EXPOSE` | all | documents the port; it does **not** publish it — that is `-p` |
 
 ## Cleanup

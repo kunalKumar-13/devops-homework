@@ -19,6 +19,6 @@ new file stayed untracked until it was added explicitly.
 ## Task 2 in one line
 
 `git cherry-pick <hash>` copies one specific commit onto the current branch as a **new
-commit with a new hash**. In the run, `feature commit 2: FIX README typo` (`985d257` on
-`feature`) was cherry-picked onto `main`, where it became `8f1472c` — the README fix
+commit with a new hash**. In the run, `feature commit 2: FIX README typo` (`988b4de` on
+`feature`) was cherry-picked onto `main`, where it became `283c949` — the README fix
 arrived, and `auth.js` from the other two feature commits did not.

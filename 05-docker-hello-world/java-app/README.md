@@ -25,45 +25,104 @@ Then open **http://localhost:8180**
 ## Real build and run output
 
 ```console
-$ cd /Users/kunalpronto/personal/repos/devops-homework/05-docker-hello-world/java-app && docker build -t hello-java .
+kunal@kunal-devops:~/devops-homework/05-docker-hello-world/java-app$ cat Dockerfile
+# ---- build stage: compile the class with a full JDK ----
+FROM eclipse-temurin:21-jdk AS build
+WORKDIR /src
+COPY HelloWorld.java ./
+RUN javac -d /out HelloWorld.java
+
+# ---- run stage: ship only the compiled class on a JRE ----
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /out ./
+
+EXPOSE 8080
+
+CMD ["java", "HelloWorld"]
+
+kunal@kunal-devops:~/devops-homework/05-docker-hello-world/java-app$ docker build -t hello-java .
 DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
             Install the buildx component to build images with BuildKit:
             https://docs.docker.com/go/buildx/
 
-Sending build context to Docker daemon  4.096kB
+Sending build context to Docker daemon  7.168kB
 
 Step 1/9 : FROM eclipse-temurin:21-jdk AS build
+21-jdk: Pulling from library/eclipse-temurin
+c3f3f88309df: Pulling fs layer
+0ae32d51e549: Pulling fs layer
+ed8299a102e9: Pulling fs layer
+baffb41879ca: Pulling fs layer
+ff9661c3ca29: Pulling fs layer
+50914c2b24a1: Pulling fs layer
+ff9661c3ca29: Download complete
+0ae32d51e549: Download complete
+50914c2b24a1: Download complete
+c6cd40608b2e: Download complete
+c3f3f88309df: Download complete
+993450fd8f14: Download complete
+ed8299a102e9: Download complete
+50914c2b24a1: Pull complete
+ed8299a102e9: Pull complete
+c3f3f88309df: Pull complete
+baffb41879ca: Download complete
+ff9661c3ca29: Pull complete
+0ae32d51e549: Pull complete
+baffb41879ca: Pull complete
+Digest: sha256:85f00967bcc624fc19fa9c2cf124ea426a5363898e267141726f31f358c2e14b
+Status: Downloaded newer image for eclipse-temurin:21-jdk
  ---> 85f00967bcc6
 Step 2/9 : WORKDIR /src
- ---> Using cache
- ---> 1386fee093ed
+ ---> Running in 52c604cd394a
+ ---> Removed intermediate container 52c604cd394a
+ ---> 6e880288ca14
 Step 3/9 : COPY HelloWorld.java ./
- ---> Using cache
- ---> 79e209db3ad7
+ ---> ea42171d1378
 Step 4/9 : RUN javac -d /out HelloWorld.java
- ---> Using cache
- ---> a346d7670343
+ ---> Running in ecb6665b731e
+ ---> Removed intermediate container ecb6665b731e
+ ---> 1b3b78fbd9c2
 Step 5/9 : FROM eclipse-temurin:21-jre
+21-jre: Pulling from library/eclipse-temurin
+ef4fb6794bcf: Pulling fs layer
+2d4fe310559d: Pulling fs layer
+f412f7e21d80: Pulling fs layer
+b6bdfedf7f6d: Pulling fs layer
+ef4fb6794bcf: Download complete
+f412f7e21d80: Download complete
+19322d9fcdaf: Download complete
+b6bdfedf7f6d: Download complete
+b6bdfedf7f6d: Pull complete
+af63669e338c: Download complete
+2d4fe310559d: Download complete
+2d4fe310559d: Pull complete
+ef4fb6794bcf: Pull complete
+f412f7e21d80: Pull complete
+Digest: sha256:7a65df4b22d2de92d4e04056e884f3b9122d70b21e2847fd66084278bd0ce037
+Status: Downloaded newer image for eclipse-temurin:21-jre
  ---> 7a65df4b22d2
 Step 6/9 : WORKDIR /app
- ---> Using cache
- ---> ef458ec08d23
+ ---> Running in 2e033515286a
+ ---> Removed intermediate container 2e033515286a
+ ---> 85d881d099d2
 Step 7/9 : COPY --from=build /out ./
- ---> Using cache
- ---> 6a605e54f957
+ ---> fc71a2439c00
 Step 8/9 : EXPOSE 8080
- ---> Using cache
- ---> 277fdc128b6a
+ ---> Running in 5cdc965d09ee
+ ---> Removed intermediate container 5cdc965d09ee
+ ---> 71c58c4a548f
 Step 9/9 : CMD ["java", "HelloWorld"]
- ---> Using cache
- ---> 9fdf3ca8f66c
-Successfully built 9fdf3ca8f66c
+ ---> Running in 00a0765e51d0
+ ---> Removed intermediate container 00a0765e51d0
+ ---> fed993be3872
+Successfully built fed993be3872
 Successfully tagged hello-java:latest
 
-$ docker run -d --name java-hello -p 8180:8080 hello-java
-6a7d47082ef9585bce285d30f5a14a0b87d9ca11c0611683cd36ed9bc50a6a0b
+kunal@kunal-devops:~/devops-homework/05-docker-hello-world/java-app$ docker run -d --name java-hello -p 8180:8080 hello-java
+060fa82a28ce3b3567beb9fb8b9a4526479fb7f7c7db8aa9af607886c09c467a
 
-$ docker ps --filter name=java-hello --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+kunal@kunal-devops:~/devops-homework/05-docker-hello-world/java-app$ docker ps --filter name=java-hello --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
 NAMES        IMAGE        STATUS         PORTS
 java-hello   hello-java   Up 4 seconds   0.0.0.0:8180->8080/tcp, [::]:8180->8080/tcp
 ```
